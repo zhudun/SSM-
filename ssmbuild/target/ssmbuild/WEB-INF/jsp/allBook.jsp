@@ -43,13 +43,13 @@
                 <tbody>
                 <c:forEach var="book" items="${requestScope.get('list')}">
                     <tr>
-                        <td>${book.getBookID()}</td>
+                        <td>${book.getBookId()}</td>
                         <td>${book.getBookName()}</td>
                         <td>${book.getBookCounts()}</td>
                         <td>${book.getDetail()}</td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/book/toUpdateBook?id=${book.getBookID()}">更改</a> |
-                            <a href="${pageContext.request.contextPath}/book/del/${book.getBookID()}">删除</a>
+                            <a href="${pageContext.request.contextPath}/book/toUpdateBook?id=${book.getBookId()}">更改</a> |
+                            <a href="${pageContext.request.contextPath}/book/del/${book.getBookId()}">删除</a>
                         </td>
                     </tr>
                 </c:forEach>

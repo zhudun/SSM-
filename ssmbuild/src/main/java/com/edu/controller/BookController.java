@@ -50,7 +50,7 @@ public class BookController {
     public String updateBook(Model model, Books book) {
         System.out.println(book);
         bookService.updateBook(book);
-        Books books = bookService.queryBookById(book.getBookID());
+        Books books = bookService.queryBookById(book.getBookId());
         model.addAttribute("books", books);
         return "redirect:/book/allBook";
     }

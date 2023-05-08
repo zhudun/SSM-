@@ -7,26 +7,26 @@
 
     <!--增加一个Book-->
     <insert id="addBook" parameterType="Books">
-        insert into ssmbuild.books(bookName,bookCounts,detail)
+        insert into ssmbuild.books(book_name,book_counts,detail)
         values (#{bookName}, #{bookCounts}, #{detail})
     </insert>
 
     <!--根据id删除一个Book-->
     <delete id="deleteBookById" parameterType="int">
-        delete from ssmbuild.books where bookID=#{bookId}
+        delete from ssmbuild.books where book_id=#{bookId}
     </delete>
 
     <!--更新Book-->
     <update id="updateBook" parameterType="Books">
         update ssmbuild.books
-        set bookName = #{bookName},bookCounts = #{bookCounts},detail = #{detail}
-        where bookID = #{bookID}
+        set book_name = #{bookName},book_counts = #{bookCounts},detail = #{detail}
+        where book_id = #{bookId}
     </update>
 
     <!--根据id查询,返回一个Book-->
     <select id="queryBookById" resultType="Books">
         select * from ssmbuild.books
-        where bookID = #{bookId}
+        where book_id = #{bookId}
     </select>
 
     <!--查询全部Book-->
