@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: gateway-service-zuul
+  profiles:
+    active: dev
+  main:
+    web-application-type: reactive
+#loggerip: ${spring.cloud.client.ip-address}
+#loggerprofile: ${spring.profiles.active}
+
+logging:
+  #  config: classpath:config/logback-dev.xml
+  config: classpath:config/logback-spring.xml
+
+management:
+  add-application-context-header: false
+  endpoints:
+    web:
+      exposure:
+        include: '*'

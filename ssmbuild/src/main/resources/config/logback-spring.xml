@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--日志格式应用spring boot默认的格式，也可以自己更改-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <property name="app.name" value="ssmbuild"/>
+    <property name="app.code" value="SC462"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+
+    <!--日志记录器，日期滚动记录-->
+    <appender name="file_all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--正在记录的日志文件的路径和文件名-->
+        <file>./logs/${app.name}/${app.code}-${app.name}.log</file>
+
+        <!--日志记录器的滚动策略，按日期大小记录-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+
+            <!--归档的日志文件的路径，%d{yyyy-MM-dd}是指日期格式，%i指定索引-->
+            <fileNamePattern>./logs/${app.name}/${app.code}-${app.name}.log.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+
+            <!--除了按日志记录之外，还配置了日志文件不能超过100M，若超过100M，日志文件会以索引0开始-->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <totalSizeCap>10GB</totalSizeCap>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <!--追加方式记录日志-->
+        <append>true</append>
+
+        <!--日志文件的格式-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+    <root level="debug">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file_all"/>
+    </root>
+
+</configuration>

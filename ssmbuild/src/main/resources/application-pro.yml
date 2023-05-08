@@ -1,0 +1,125 @@
+server:
+  port: 8083
+  tomcat:
+    basedir: /tmp
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 600000
+        response-timeout: 60s
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: nic
+          uri: https://nic7.pension.taikang.com/
+          predicates:
+            - Path=/nic/**
+          filters:
+            - StripPrefix=1
+        - id: data-repo
+          uri: http://10.154.76.193:9080/
+          predicates:
+            - Path=/data-repo/**
+          filters:
+            - StripPrefix=1
+        - id: psmsys
+          uri: http://10.153.27.41:6605/
+          predicates:
+            - Path=/psmsys/**
+          filters:
+            - StripPrefix=1
+        - id: hmdw
+          uri: http://10.132.72.59:9080/hmdw/
+          predicates:
+            - Path=/tms-api/hmdw/**
+          filters:
+            - StripPrefix=1
+        - id: tms-web
+          uri: lb://tms-web
+          predicates:
+            - Path=/tms-api/**
+          filters:
+            - StripPrefix=1
+        - id: login-web
+          uri: lb://login-web
+          predicates:
+            - Path=/login/**
+          filters:
+            - StripPrefix=1
+        - id: business-web
+          uri: lb://business-web
+          predicates:
+            - Path=/business/**
+          filters:
+            - StripPrefix=1
+        - id: emp-web
+          uri: lb://emp-web
+          predicates:
+            - Path=/emp-api/**
+          filters:
+            - StripPrefix=1
+        - id: goods-web
+          uri: lb://goods-web
+          predicates:
+            - Path=/goods-api/**
+          filters:
+            - StripPrefix=1
+        - id: activity-web
+          uri: lb://activity-web
+          predicates:
+            - Path=/activity-api/**
+          filters:
+            - StripPrefix=1
+        - id: identify-web
+          uri: lb://identify-web
+          predicates:
+            - Path=/identify/**
+          filters:
+            - StripPrefix=1
+    id: 10.132.72.213
+  # id: 10.132.72.214
+  http:
+    multipart:
+      max-file-size: 50Mb # 最大支持文件大小
+      max-request-size: 1000Mb # 最大支持请求大小
+eureka:
+  instance:
+    prefer-ip-address: true
+  instance-id: ${spring.application.id}:${server.port}
+  # prefer-ip-address: true # 设置微服务调用地址为IP优先（缺省为false）
+  #lease-renewal-interval-in-seconds: 5 # 心跳时间，即服务续约间隔时间（缺省为30s）
+  #lease-expiration-duration-in-seconds: 15 # 发呆时间，即服务续约到期时间（缺省为90s）
+  client:
+    serviceUrl:
+      defaultZone: http://10.132.72.213:8082/eureka/ # 指定服务注册中心的地址
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  eureka:
+    enabled: true
+
+audience:
+  clientId: 098f6bcd4621d373cade4e832627b4f6
+  base64Secret: MDk4ZjZiY2Q0NjIxZDM3M2NhZGU0ZTgzMjYyN2I0ZjY=
+  name: restapiuser
+  expiresSecond: 1800
+
+NIC:
+  url: https://nic7.pension.taikang.com/tkpsms/app-api
+  publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCl5ejtuCTcMgDaWKcWB9+atRTsKfkRAnBnTdBg88y5kxWt2EOMtNC6WhIdiz3Kn4FEQlDKPhaTjN/l7QJMZr5mz3si+0xfntorZBqlSdVysDsN0URnhs75fqS041Fae4FhG4khb4IPg+Jok7fwpYWgurUGlh/WxMK1ZZI5X67qqQIDAQAB
+  username: operationCS
+  password: operationCS123
